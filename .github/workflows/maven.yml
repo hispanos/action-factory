@@ -19,6 +19,6 @@ jobs:
       - name: clean project
         run: mvn clean
       - name: run all test
-        run: mvn test
+        run: mvn -Dspring.profiles.active=test test
       - name: create .jar and install
         run: mvn install
