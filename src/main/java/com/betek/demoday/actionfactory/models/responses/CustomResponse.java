@@ -1,4 +1,4 @@
-package com.betek.demoday.actionfactory.utils;
+package com.betek.demoday.actionfactory.models.responses;
 
 import org.springframework.http.HttpStatus;
 
