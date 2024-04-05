@@ -1,11 +1,9 @@
 package com.betek.demoday.actionfactory.models;
 
+import com.betek.demoday.actionfactory.utils.RoleName;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Role {
@@ -13,13 +11,14 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleName name;
     private String description;
 
     public Role() {
     }
 
-    public Role(Long id, String name, String description) {
+    public Role(Long id, RoleName name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -33,11 +32,11 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
+    public RoleName getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(RoleName name) {
         this.name = name;
     }
 
