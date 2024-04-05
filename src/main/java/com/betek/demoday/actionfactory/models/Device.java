@@ -1,12 +1,10 @@
-package com.betek.demoday.actionfactory.model;
+package com.betek.demoday.actionfactory.models;
 
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
 public class Device {
     @Id
     private Long imei;

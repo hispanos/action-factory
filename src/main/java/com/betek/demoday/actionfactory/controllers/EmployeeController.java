@@ -2,7 +2,9 @@ package com.betek.demoday.actionfactory.controllers;
 
 import com.betek.demoday.actionfactory.models.Employee;
 import com.betek.demoday.actionfactory.services.EmployeeService;
+import com.betek.demoday.actionfactory.utils.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,11 @@ public class EmployeeController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
-        return ResponseEntity.ok(this.employeeService.saveEmployee(employee));
+    public CustomResponse<Employee> saveEmployee(@RequestBody Employee employee) {
+        try {
+            return CustomResponse.success(employeeService.saveEmployee(employee));
+        } catch (Exception e) {
+            return CustomResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 }
