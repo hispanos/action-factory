@@ -1,9 +1,6 @@
-package com.betek.demoday.actionfactory.model;
+package com.betek.demoday.actionfactory.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,7 +8,8 @@ import java.time.LocalDateTime;
 @Entity
 public class Employee {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
     private String password;
@@ -25,7 +23,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String name, String email, String password, Role role, LocalDate hiringDate, LocalDateTime lastAccess, String state) {
+    public Employee(Long id, String name, String email, String password, Role role, LocalDate hiringDate, LocalDateTime lastAccess, String state) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -36,11 +34,11 @@ public class Employee {
         this.state = state;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
