@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "supplier")
 public class Supplier {
     @Id
-    private Long idSupplier;
+    private Long id;
     private String name;
     private String address;
     private String telephoneNumber;
@@ -23,7 +23,7 @@ public class Supplier {
     private List<Device> devices;
 
     public Supplier(Long idSupplier, String name, String address, String telephoneNumber, String email, String webSite, String sectorIndustry, LocalDate registrationDate) {
-        this.idSupplier = idSupplier;
+        this.id = idSupplier;
         this.name = name;
         this.address = address;
         this.telephoneNumber = telephoneNumber;
@@ -34,7 +34,7 @@ public class Supplier {
     }
 
     public Long getIdSupplier() {
-        return idSupplier;
+        return id;
     }
 
     public String getName() {
@@ -66,7 +66,7 @@ public class Supplier {
     }
 
     public void setIdSupplier(Long idSupplier) {
-        this.idSupplier = idSupplier;
+        this.id = idSupplier;
     }
 
     public void setName(String name) {
