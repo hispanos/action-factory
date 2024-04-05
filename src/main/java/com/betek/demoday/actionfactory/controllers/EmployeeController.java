@@ -27,4 +27,14 @@ public class EmployeeController {
             return CustomResponse.error(e.getStatusCode(), e.getMessage());
         }
     }
+
+    @PutMapping("/{idEmployee}")
+    public CustomResponse<Employee> updateEmployee(@PathVariable("idEmployee") Long idEmployee, @RequestBody Employee employee) {
+        try {
+            employee.setId(idEmployee);
+            return CustomResponse.success(employeeService.updateEmployee(employee));
+        } catch (ApiException e) {
+            return CustomResponse.error(e.getStatusCode(), e.getMessage());
+        }
+    }
 }

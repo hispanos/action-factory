@@ -32,5 +32,18 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    public Employee updateEmployee(Employee employee) {
+        if (employee == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Employee cannot be null");
+        }
+        if (employee.getRole().getId() != 1 && employee.getRole().getId() != 2) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Employee role id must be 1 or 2");
+        }
+        if (!employeeRepository.existsById(employee.getId())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Employee with this id does not exist");
+        }
+        return employeeRepository.save(employee);
+    }
+
 
 }
