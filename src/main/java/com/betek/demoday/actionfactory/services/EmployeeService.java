@@ -5,15 +5,18 @@ import com.betek.demoday.actionfactory.models.Employee;
 import com.betek.demoday.actionfactory.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class EmployeeService {
     EmployeeRepository employeeRepository;
+    BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, BCryptPasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Employee saveEmployee(Employee employee) {
@@ -26,6 +29,7 @@ public class EmployeeService {
         if (employeeRepository.existsByEmail(employee.getEmail())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Employee with this email already exists");
         }
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         return employeeRepository.save(employee);
     }
 

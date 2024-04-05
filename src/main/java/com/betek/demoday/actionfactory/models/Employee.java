@@ -1,6 +1,6 @@
 package com.betek.demoday.actionfactory.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -14,7 +14,7 @@ public class Employee {
     private String name;
     @Column(unique = true)
     private String email;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @ManyToOne
     @JoinColumn(name = "role_id")
