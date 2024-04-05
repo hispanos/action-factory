@@ -1,5 +1,6 @@
 package com.betek.demoday.actionfactory.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class Employee {
     private String name;
     @Column(unique = true)
     private String email;
+    @JsonIgnore
     private String password;
     @ManyToOne
     @JoinColumn(name = "role_id")
