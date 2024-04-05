@@ -1,4 +1,4 @@
-package com.betek.demoday.actionfactory.model;
+package com.betek.demoday.actionfactory.models;
 
 import jakarta.persistence.*;
 
@@ -19,7 +19,7 @@ public class Supplier {
     private String sectorIndustry;
     private LocalDate registrationDate;
 
-    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
     private List<Device> devices;
 
     public Supplier(Long idSupplier, String name, String address, String telephoneNumber, String email, String webSite, String sectorIndustry, LocalDate registrationDate) {
