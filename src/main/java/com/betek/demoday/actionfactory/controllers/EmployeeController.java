@@ -1,5 +1,6 @@
 package com.betek.demoday.actionfactory.controllers;
 
+import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.Employee;
 import com.betek.demoday.actionfactory.services.EmployeeService;
 import com.betek.demoday.actionfactory.utils.CustomResponse;
@@ -22,8 +23,8 @@ public class EmployeeController {
     public CustomResponse<Employee> saveEmployee(@RequestBody Employee employee) {
         try {
             return CustomResponse.success(employeeService.saveEmployee(employee));
-        } catch (Exception e) {
-            return CustomResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (ApiException e) {
+            return CustomResponse.error(e.getStatusCode(), e.getMessage());
         }
     }
 }

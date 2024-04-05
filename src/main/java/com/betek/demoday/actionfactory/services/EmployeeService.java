@@ -4,6 +4,7 @@ import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.Employee;
 import com.betek.demoday.actionfactory.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +18,13 @@ public class EmployeeService {
 
     public Employee saveEmployee(Employee employee) {
         if (employee == null) {
-            throw new ApiException(400, "Employee cannot be null");
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Employee cannot be null");
         }
         if (employee.getRole().getId() != 1 && employee.getRole().getId() != 2) {
-            throw new ApiException(400, "Employee role id must be 1 or 2");
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Employee role id must be 1 or 2");
+        }
+        if (employeeRepository.existsByEmail(employee.getEmail())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Employee with this email already exists");
         }
         return employeeRepository.save(employee);
     }
