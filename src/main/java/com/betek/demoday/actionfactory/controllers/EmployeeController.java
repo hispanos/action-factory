@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/employee")
 public class EmployeeController {
@@ -36,5 +38,10 @@ public class EmployeeController {
         } catch (ApiException e) {
             return CustomResponse.error(e.getStatusCode(), e.getMessage());
         }
+    }
+
+    @GetMapping("/")
+    public CustomResponse<List<Employee>> getAllEmployees() {
+        return CustomResponse.success(employeeService.getAllEmployees());
     }
 }
