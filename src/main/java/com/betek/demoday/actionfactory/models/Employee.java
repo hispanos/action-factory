@@ -1,5 +1,6 @@
 package com.betek.demoday.actionfactory.models;
 
+import com.betek.demoday.actionfactory.utils.StatusEmployee;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -21,12 +22,13 @@ public class Employee {
     private Role role;
     private LocalDate hiringDate;
     private LocalDateTime lastAccess;
-    private String state;
+    @Enumerated(EnumType.STRING)
+    private StatusEmployee state;
 
     public Employee() {
     }
 
-    public Employee(Long id, String name, String email, String password, Role role, LocalDate hiringDate, LocalDateTime lastAccess, String state) {
+    public Employee(Long id, String name, String email, String password, Role role, LocalDate hiringDate, LocalDateTime lastAccess, StatusEmployee state) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -93,11 +95,11 @@ public class Employee {
         this.lastAccess = lastAccess;
     }
 
-    public String getState() {
+    public StatusEmployee getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(StatusEmployee state) {
         this.state = state;
     }
 }

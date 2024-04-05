@@ -1,8 +1,6 @@
 package com.betek.demoday.actionfactory.models;
 
 import com.betek.demoday.actionfactory.utils.RoleName;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
