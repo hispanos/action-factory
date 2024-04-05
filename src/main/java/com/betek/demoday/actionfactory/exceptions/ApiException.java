@@ -1,19 +1,21 @@
 package com.betek.demoday.actionfactory.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 public class ApiException extends RuntimeException {
 
-        private int statusCode;
+        private HttpStatus statusCode;
 
         public ApiException(String message) {
             super(message);
         }
 
-        public ApiException(int statusCode, String message) {
+        public ApiException(HttpStatus statusCode, String message) {
             super(message);
             this.statusCode = statusCode;
         }
 
-        public int getStatusCode() {
+        public HttpStatus getStatusCode() {
             return statusCode;
         }
 }

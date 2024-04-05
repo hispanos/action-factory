@@ -1,6 +1,5 @@
 package com.betek.demoday.actionfactory.utils;
 
-import com.betek.demoday.actionfactory.models.Employee;
 import org.springframework.http.HttpStatus;
 
 public class CustomResponse<T> {
