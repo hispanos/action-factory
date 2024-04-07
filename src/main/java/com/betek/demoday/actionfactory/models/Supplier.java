@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "supplier")
 public class Supplier {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String address;
@@ -31,6 +32,9 @@ public class Supplier {
         this.webSite = webSite;
         this.sectorIndustry = sectorIndustry;
         this.registrationDate = registrationDate;
+    }
+
+    public Supplier() {
     }
 
     public Long getIdSupplier() {
