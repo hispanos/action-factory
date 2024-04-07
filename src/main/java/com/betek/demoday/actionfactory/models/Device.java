@@ -24,6 +24,9 @@ public class Device {
         this.validationDate = validationDate;
     }
 
+    public Device() {
+    }
+
     public Long getImei() {
         return imei;
     }
