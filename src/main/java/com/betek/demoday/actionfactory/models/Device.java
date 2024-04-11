@@ -7,10 +7,9 @@ import java.time.LocalDate;
 @Entity
 public class Device {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imei;
     private String state;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
     private int score;

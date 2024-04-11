@@ -25,9 +25,9 @@ public class DeviceController {
     }
 
     @PostMapping
-    @Operation(summary = "Crear un empleado.")
+    @Operation(summary = "Crear un dispositivo.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Proveedor creado."),
+            @ApiResponse(responseCode = "200", description = "Dispositivo creado."),
             @ApiResponse(responseCode = "400", description = "El email ya está registrado.", content = @Content),
     })
     public CustomResponse<Device> saveDevice(@RequestBody Device device){
@@ -39,16 +39,16 @@ public class DeviceController {
     }
 
     @GetMapping
-    @Operation(summary = "Mostrar proveedores.")
+    @Operation(summary = "Mostrar dispositivos.")
     public List<Device> getAllDevices(){
         return deviceService.getAllsDevices();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener un proveedor por su ID.")
+    @Operation(summary = "Obtener un dispositivo por su ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Proveedor encontrado."),
-            @ApiResponse(responseCode = "404", description = "Proveedor no encontrado.", content = @Content),
+            @ApiResponse(responseCode = "200", description = "Dispositivo encontrado."),
+            @ApiResponse(responseCode = "404", description = "Dispositivo no encontrado.", content = @Content),
     })
     public CustomResponse<Device> getDeviceById(@PathVariable Long id) {
         try {
@@ -60,7 +60,7 @@ public class DeviceController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar un proveedor por su ID.")
+    @Operation(summary = "Eliminar un dispositivo por su ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Proveedor eliminado."),
             @ApiResponse(responseCode = "400", description = "Proveedor no encontrado.", content = @Content)
@@ -75,7 +75,7 @@ public class DeviceController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Actualizar un proveedor por su ID.")
+    @Operation(summary = "Actualizar un dispositivo por su ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Proveedor actualizado."),
             @ApiResponse(responseCode = "400", description = "Proveedor no encontrado.", content = @Content)

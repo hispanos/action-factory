@@ -23,8 +23,8 @@ public class Supplier {
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
     private List<Device> devices;
 
-    public Supplier(Long idSupplier, String name, String address, String telephoneNumber, String email, String webSite, String sectorIndustry, LocalDate registrationDate) {
-        this.id = idSupplier;
+    public Supplier(Long id, String name, String address, String telephoneNumber, String email, String webSite, String sectorIndustry, LocalDate registrationDate) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.telephoneNumber = telephoneNumber;
@@ -69,8 +69,8 @@ public class Supplier {
         return registrationDate;
     }
 
-    public void setIdSupplier(Long idSupplier) {
-        this.id = idSupplier;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setName(String name) {

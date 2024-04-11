@@ -27,7 +27,13 @@ public class SupplierService {
         if (supplierRepository.existsByEmail(supplier.getEmail())){
             throw new ApiException(HttpStatus.BAD_REQUEST, "El email ya está registrado.");
         }
-        return supplierRepository.save(supplier);
+        try{
+            return supplierRepository.save(supplier);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+
     }
 
     public List<Supplier> getAllsSuppliers(){
@@ -55,7 +61,7 @@ public class SupplierService {
         if (!supplierRepository.existsById(id)) {
             throw new ApiException(HttpStatus.NOT_FOUND, "Proveedor no encontrado.");
         }
-        supplier.setIdSupplier(id);
+        supplier.setId(id);
         return supplierRepository.save(supplier);
     }
 }
