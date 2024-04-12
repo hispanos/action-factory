@@ -1,9 +1,8 @@
 package com.betek.demoday.actionfactory.controllers;
 
-import com.betek.demoday.actionfactory.services.readerService.ReaderService;
-import com.opencsv.CSVReader;
+import com.betek.demoday.actionfactory.services.fileService.ReaderService;
+import com.betek.demoday.actionfactory.services.fileService.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -13,10 +12,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/file")
 public class ReaderController {
     private ReaderService readerService;
+    private ValidationService validationService;
 
     @Autowired
-    public ReaderController(ReaderService readerService){
+    public ReaderController(ReaderService readerService, ValidationService validationService){
         this.readerService = readerService;
+        this.validationService = validationService;
     }
 
 
@@ -28,7 +29,8 @@ public class ReaderController {
         }
 
         try {
-            readerService.processCSVFile(file);
+           // readerService.processCSVFile(file);
+            validationService.validationCsv(file);
             redirectAttributes.addFlashAttribute("message", "¡Archivo subido y procesado correctamente!");
         } catch (Exception e) {
             e.printStackTrace();
