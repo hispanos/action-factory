@@ -25,7 +25,7 @@ public class ReaderController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Por favor selecciona un archivo para subir.");
-            return "redirect:/";
+            return "Por favor sube un archivo.";
         }
 
         try {
@@ -36,8 +36,8 @@ public class ReaderController {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("message", "¡Error al procesar el archivo CSV!");
         }
-
-        return "redirect:/";
+        //redirect:/
+        return "Estamos procesando tú archivo...";
     }
 }
 
