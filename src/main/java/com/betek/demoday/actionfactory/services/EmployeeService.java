@@ -5,6 +5,7 @@ import com.betek.demoday.actionfactory.models.Employee;
 import com.betek.demoday.actionfactory.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -19,6 +20,7 @@ public class EmployeeService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @PreAuthorize("hasRole('administrator')")
     public Employee saveEmployee(Employee employee) {
         if (employee == null) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "El empleado no puede ser nulo");
@@ -33,6 +35,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    @PreAuthorize("hasRole('administrator')")
     public Employee updateEmployee(Employee employee) {
         if (employee == null) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Employee cannot be null");
