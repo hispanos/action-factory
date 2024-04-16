@@ -50,14 +50,25 @@ public class ValidationService {
         List<InvalidDevice> dispositivosInvalidos = new ArrayList<>();
 
         for (DeviceCsvDto device : sortedList) {
-            if (proveedoresExistentes.contains(device.getProveedor())){
-                ValidDevice validDevice = new ValidDevice();
-                dispositivosValidos.add(validDevice);
-            }else{
-                InvalidDevice invalidDevice = new InvalidDevice();
-                dispositivosInvalidos.add(invalidDevice);
+
+            String imei = device.getImei();
+
+            if (imei.equals(new StringBuilder(imei).reverse().toString())) {
+                System.out.println("¡No se puede validar el dispositivo ya que su IMEI (" + imei + ") es un palindromo!");
+                continue;
             }
-            System.out.println("Validando dispositivo: " + device.getImei() + " - " + device.getState());
+
+            if(("LISTO_PARA_USAR".equals(device.getState())) && Integer.parseInt(device.getPuntaje()) > 60) {
+
+                if (proveedoresExistentes.contains(device.getProveedor())){
+                    ValidDevice validDevice = new ValidDevice();
+                    dispositivosValidos.add(validDevice);
+                }else{
+                    InvalidDevice invalidDevice = new InvalidDevice();
+                    dispositivosInvalidos.add(invalidDevice);
+                }
+                System.out.println("Validando dispositivo: " + device.getImei() + ", con puntaje: " + device.getPuntaje() + " - " + device.getState());
+            }
         }
     }
 
