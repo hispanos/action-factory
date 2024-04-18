@@ -2,6 +2,7 @@ package com.betek.demoday.actionfactory.controllers;
 
 import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.Employee;
+import com.betek.demoday.actionfactory.dto.EmployeeDTO;
 import com.betek.demoday.actionfactory.services.EmployeeService;
 import com.betek.demoday.actionfactory.models.responses.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,9 +33,9 @@ public class EmployeeController {
             @ApiResponse(responseCode = "400", description = "El id del rol del empleado debe ser 1 o 2.", content = @Content),
             @ApiResponse(responseCode = "400", description = "El email ya está registrado.", content = @Content),
     })
-    public CustomResponse<Employee> saveEmployee(@RequestBody Employee employee) {
+    public CustomResponse<Employee> saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
         try {
-            return CustomResponse.success(employeeService.saveEmployee(employee));
+            return CustomResponse.success(employeeService.saveEmployee(employeeDTO));
         } catch (ApiException e) {
             return CustomResponse.error(e.getStatusCode(), e.getMessage());
         }
@@ -47,10 +48,9 @@ public class EmployeeController {
             @ApiResponse(responseCode = "400", description = "El id del rol del empleado debe ser 1 o 2.", content = @Content),
             @ApiResponse(responseCode = "400", description = "El empleado con este id no existe.", content = @Content),
     })
-    public CustomResponse<Employee> updateEmployee(@PathVariable("idEmployee") Long idEmployee, @RequestBody Employee employee) {
+    public CustomResponse<Employee> updateEmployee(@PathVariable("idEmployee") Long idEmployee, @RequestBody EmployeeDTO employeeDTO) {
         try {
-            employee.setId(idEmployee);
-            return CustomResponse.success(employeeService.updateEmployee(employee));
+            return CustomResponse.success(employeeService.updateEmployee(idEmployee, employeeDTO));
         } catch (ApiException e) {
             return CustomResponse.error(e.getStatusCode(), e.getMessage());
         }
