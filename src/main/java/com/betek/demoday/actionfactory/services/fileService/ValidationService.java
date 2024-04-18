@@ -1,13 +1,17 @@
 package com.betek.demoday.actionfactory.services.fileService;
 
 import com.betek.demoday.actionfactory.dto.DeviceCsvDto;
-import com.betek.demoday.actionfactory.models.Device;
+import com.betek.demoday.actionfactory.exceptions.ApiException;
+import com.betek.demoday.actionfactory.models.Supplier;
+import com.betek.demoday.actionfactory.models.responses.ApiError;
 import com.betek.demoday.actionfactory.models.validations.InvalidDevice;
 import com.betek.demoday.actionfactory.models.validations.ValidDevice;
 import com.betek.demoday.actionfactory.repositories.InvalidDeviceRepository;
+import com.betek.demoday.actionfactory.repositories.SupplierRepository;
 import com.betek.demoday.actionfactory.repositories.ValidDeviceRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.google.protobuf.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,31 +20,40 @@ import java.util.*;
 @Service
 public class ValidationService {
 
-    private final ReaderService readerService;
+    private ReaderService readerService;
+    private ValidTestService validTestService;
+    private SupplierRepository supplierRepository;
     private ValidDeviceRepository validDeviceRepository;
     private InvalidDeviceRepository invalidDeviceRepository;
 
-    private Set<String> proveedoresExistentes = new HashSet<>();
+    private Supplier supplier;
 
     @Autowired
-    public ValidationService(ReaderService readerService, ValidDeviceRepository validDeviceRepository, InvalidDeviceRepository invalidDeviceRepository){
+    public ValidationService(ReaderService readerService, ValidDeviceRepository validDeviceRepository, InvalidDeviceRepository invalidDeviceRepository, SupplierRepository supplierRepository, Supplier supplier, ValidTestService validTestService) {
         this.readerService = readerService;
         this.validDeviceRepository = validDeviceRepository;
         this.invalidDeviceRepository = invalidDeviceRepository;
+        this.supplierRepository = supplierRepository;
+        this.supplier = supplier;
+        this.validTestService = validTestService;
     }
 
-    public List<DeviceCsvDto> validationCsv(MultipartFile file) throws Exception {
+    public List<DeviceCsvDto> validationCsv(MultipartFile file) {
+
         List<DeviceCsvDto> resultado = readerService.processCSVFile(file);
 
-        sortList(resultado);
-        validateList(resultado);
+        try {
+            sortList(resultado);
+            validateList(resultado);
+            return resultado;
 
-        return resultado;
+        } catch (ApiException e) {
+           e.getMessage();
+            return null;
+        }
     }
 
-
     public void sortList(List<DeviceCsvDto> list) {
-        // Ordena la lista por IMEI
         Collections.sort(list, Comparator.comparing(DeviceCsvDto::getImei));
     }
 
@@ -50,28 +63,20 @@ public class ValidationService {
         List<InvalidDevice> dispositivosInvalidos = new ArrayList<>();
 
         for (DeviceCsvDto device : sortedList) {
+            boolean isValid = validTestService.validations(device);
 
-            String imei = device.getImei();
-
-            if (imei.equals(new StringBuilder(imei).reverse().toString())) {
-                System.out.println("¡No se puede validar el dispositivo ya que su IMEI (" + imei + ") es un palindromo!");
-                continue;
+            if (isValid) {
+                ValidDevice validDevice = new ValidDevice();
+                dispositivosValidos.add(validDevice);
+            } else {
+                InvalidDevice invalidDevice = new InvalidDevice();
+                dispositivosInvalidos.add(invalidDevice);
             }
 
-            if(("LISTO_PARA_USAR".equals(device.getState())) && Integer.parseInt(device.getPuntaje()) > 60) {
-
-                if (proveedoresExistentes.contains(device.getProveedor())){
-                    ValidDevice validDevice = new ValidDevice();
-                    dispositivosValidos.add(validDevice);
-                }else{
-                    InvalidDevice invalidDevice = new InvalidDevice();
-                    dispositivosInvalidos.add(invalidDevice);
-                }
-                System.out.println("Validando dispositivo: " + device.getImei() + ", con puntaje: " + device.getPuntaje() + " - " + device.getState());
-            }
+            System.out.println("Validando dispositivo: " + device.getImei() + ", con puntaje: " + device.getPuntaje() + " - " + device.getState());
         }
+        System.out.println("pausita pa");
     }
-
-
-
 }
+
+

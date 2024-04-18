@@ -1,13 +1,17 @@
 package com.betek.demoday.actionfactory.services.fileService;
 
 import com.betek.demoday.actionfactory.dto.DeviceCsvDto;
+import com.betek.demoday.actionfactory.exceptions.ApiException;
+import com.google.protobuf.Api;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ import java.util.List;
 @Service
 public class ReaderService {
 
-    public List<DeviceCsvDto> processCSVFile(MultipartFile file) throws Exception {
+    public List<DeviceCsvDto> processCSVFile(MultipartFile file) {
         try {
 
             Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
@@ -40,9 +44,9 @@ public class ReaderService {
 
                 return divList;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error al procesar el archivo CSV: " + e.getMessage());
+        } catch (IOException e) {
+            e.getMessage();
+            return null;
         }
     }
 }
