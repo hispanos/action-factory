@@ -28,6 +28,7 @@ public class InvalidDevice {
     @JoinColumn(name = "employee_id")
     private Employee employee;
     private long validatorID;
+    private Integer uploadId;
 }
 
 
