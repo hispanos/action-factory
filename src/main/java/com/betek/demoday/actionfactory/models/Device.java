@@ -9,7 +9,7 @@ public class Device {
     @Id
     private Long imei;
     private String state;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
     private int score;
@@ -21,6 +21,9 @@ public class Device {
         this.supplier = supplier;
         this.score = score;
         this.validationDate = validationDate;
+    }
+
+    public Device() {
     }
 
     public Long getImei() {
