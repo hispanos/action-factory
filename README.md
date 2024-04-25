@@ -7,6 +7,13 @@
 
 Action Factory es una plataforma diseñada para revolucionar el proceso de validación de dispositivos de proveedores aliados. Este sistema automatizado y robusto permite gestionar eficientemente la información de socios comerciales y dispositivos, liberando a los empleados de tareas manuales repetitivas.
 
+## Prolema a resolver
+El problema que parece estar resuelto por Action Factory es la gestión y validación eficiente de dispositivos de proveedores aliados. Antes de esta plataforma, el proceso probablemente involucraba tareas manuales repetitivas, lo que consumía tiempo y recursos. Con Action Factory, se automatiza la gestión de la información de socios comerciales y dispositivos, liberando a los empleados de estas tareas manuales.
+
+Las características principales de Action Factory incluyen la gestión de empresas aliadas, la gestión de empleados con roles definidos, la validación automática de dispositivos, funcionalidades de consulta y búsqueda de dispositivos, seguridad integrada con JWT, documentación completa de la API con Swagger, despliegue automatizado con integración continua y despliegue continuo, entre otros.
+
+La tecnología utilizada incluye Java y Spring Framework para el backend, una base de datos SQL para el almacenamiento de información, REST para la creación de servicios web, microservicios para modularizar la aplicación, integración continua y despliegue continuo utilizando GitHub Actions y GCP o AWS, seguridad JWT para autenticación y autorización, Swagger para la documentación de la API, patrones de diseño y buenas prácticas de desarrollo para garantizar un código limpio, mantenible y escalable, pruebas unitarias y despliegue en la nube.
+
 ## Características Principales
 
 - Gestión de Empresas Aliadas.
@@ -30,6 +37,7 @@ Action Factory es una plataforma diseñada para revolucionar el proceso de valid
 - Patrones de Diseño y Buenas Prácticas de Desarrollo para garantizar un código limpio, mantenible y escalable.
 - Creación de pruebas unitarias.
 - Despliegue en la nube.
+
 
 ## Instalación y Uso
 
