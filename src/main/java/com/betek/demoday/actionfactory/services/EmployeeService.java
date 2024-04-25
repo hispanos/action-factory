@@ -1,7 +1,9 @@
 package com.betek.demoday.actionfactory.services;
 
+import com.betek.demoday.actionfactory.dto.EmployeeDTO;
 import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.Employee;
+import com.betek.demoday.actionfactory.models.Role;
 import com.betek.demoday.actionfactory.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +14,17 @@ import java.util.List;
 public class EmployeeService {
     EmployeeRepository employeeRepository;
     BCryptPasswordEncoder passwordEncoder;
+    RoleService roleService;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, BCryptPasswordEncoder passwordEncoder) {
+    public EmployeeService(EmployeeRepository employeeRepository, BCryptPasswordEncoder passwordEncoder, RoleService roleService) {
         this.employeeRepository = employeeRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
-    public Employee saveEmployee(Employee employee) {
+    public Employee saveEmployee(EmployeeDTO employeeDTO) {
+        Employee employee = getEmployeeFromDTO(employeeDTO);
         if (employee == null) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "El empleado no puede ser nulo");
         }
@@ -33,10 +38,12 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(Employee employee) {
-        if (employee == null) {
+    public Employee updateEmployee(Long idEmployee, EmployeeDTO employeeDTO) {
+        if (employeeDTO == null) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Employee cannot be null");
         }
+        Employee employee = getEmployeeFromDTO(employeeDTO);
+        employee.setId(idEmployee);
         if (employee.getRole().getId() != 1 && employee.getRole().getId() != 2) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Employee role id must be 1 or 2");
         }
@@ -50,5 +57,16 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-
+    //Get Employee from EmployeeDTO
+    public Employee getEmployeeFromDTO(EmployeeDTO employeeDTO) {
+        Role role = roleService.getRoleById(employeeDTO.getRoleId());
+        Employee employee = new Employee();
+        employee.setName(employeeDTO.getName());
+        employee.setEmail(employeeDTO.getEmail());
+        employee.setPassword(employeeDTO.getPassword());
+        employee.setRole(role);
+        employee.setHiringDate(employeeDTO.getHiringDate());
+        employee.setState(employeeDTO.getState());
+        return employee;
+    }
 }
