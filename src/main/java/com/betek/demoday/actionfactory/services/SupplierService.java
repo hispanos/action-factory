@@ -3,6 +3,7 @@ package com.betek.demoday.actionfactory.services;
 import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.Supplier;
 import com.betek.demoday.actionfactory.repositories.SupplierRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class SupplierService {
 
     SupplierRepository supplierRepository;
@@ -28,9 +30,10 @@ public class SupplierService {
             throw new ApiException(HttpStatus.BAD_REQUEST, "El email ya está registrado.");
         }
         try{
+            log.info("Proveedor guardado: " + supplier);
             return supplierRepository.save(supplier);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        }catch (ApiException e){
+            log.error("Error al guardar el proveedor: " + e.getMessage());
             return null;
         }
 
@@ -46,6 +49,7 @@ public class SupplierService {
         if (optionalSupplier.isPresent()) {
             return optionalSupplier.get();
         } else {
+            log.error("Proveedor no encontrado.");
             throw new ApiException(HttpStatus.NOT_FOUND, "Proveedor no encontrado.");
         }
     }
@@ -54,6 +58,7 @@ public class SupplierService {
         if (!supplierRepository.existsById(id)) {
             throw new ApiException(HttpStatus.NOT_FOUND, "Proveedor no encontrado.");
         }
+        log.info("Proveedor eliminado con id: " + id);
         supplierRepository.deleteById(id);
     }
 
@@ -62,6 +67,7 @@ public class SupplierService {
             throw new ApiException(HttpStatus.NOT_FOUND, "Proveedor no encontrado.");
         }
         supplier.setId(id);
+        log.info("Proveedor actualizado: " + supplier);
         return supplierRepository.save(supplier);
     }
 }

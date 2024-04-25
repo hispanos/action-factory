@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Supplier Controller", description = "Controlador para gestionar las operaciones de los proveedores")
+@Tag(name = "Controlador de Proveedores", description = "Controlador para gestionar las operaciones de los proveedores")
 @RestController
 @RequestMapping("api/supplier")
 public class SupplierController {
