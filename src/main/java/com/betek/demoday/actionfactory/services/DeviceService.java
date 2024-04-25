@@ -56,4 +56,18 @@ public class DeviceService {
         return deviceRepository.save(device);
     }
 
+    public Device getDeviceByImei(Long imei) {
+        Optional<Device> optionalDevice = deviceRepository.findById(imei);
+        if (optionalDevice.isPresent()) {
+            return optionalDevice.get();
+        } else {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Dispositivo no encontrado.");
+        }
+    }
+
+    public Device getDeviceByImeiAndSupplier(Long imei, String name) {
+        return deviceRepository.findByImeiAndSupplier_Name(imei, name);
+    }
+
+
 }
