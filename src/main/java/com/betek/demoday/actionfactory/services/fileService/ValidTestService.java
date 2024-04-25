@@ -13,9 +13,8 @@ public class ValidTestService {
     private Supplier supplier;
 
     @Autowired
-    public ValidTestService(SupplierRepository supplierRepository, Supplier supplier){
+    public ValidTestService(SupplierRepository supplierRepository){
         this.supplierRepository = supplierRepository;
-        this.supplier = supplier;
     }
 
     public boolean validations(DeviceCsvDto device){

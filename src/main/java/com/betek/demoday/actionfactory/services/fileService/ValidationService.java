@@ -3,15 +3,12 @@ package com.betek.demoday.actionfactory.services.fileService;
 import com.betek.demoday.actionfactory.dto.DeviceCsvDto;
 import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.Supplier;
-import com.betek.demoday.actionfactory.models.responses.ApiError;
 import com.betek.demoday.actionfactory.models.validations.InvalidDevice;
 import com.betek.demoday.actionfactory.models.validations.ValidDevice;
 import com.betek.demoday.actionfactory.repositories.InvalidDeviceRepository;
 import com.betek.demoday.actionfactory.repositories.SupplierRepository;
 import com.betek.demoday.actionfactory.repositories.ValidDeviceRepository;
-import com.google.protobuf.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,12 +26,11 @@ public class ValidationService {
     private Supplier supplier;
 
     @Autowired
-    public ValidationService(ReaderService readerService, ValidDeviceRepository validDeviceRepository, InvalidDeviceRepository invalidDeviceRepository, SupplierRepository supplierRepository, Supplier supplier, ValidTestService validTestService) {
+    public ValidationService(ReaderService readerService, ValidDeviceRepository validDeviceRepository, InvalidDeviceRepository invalidDeviceRepository, SupplierRepository supplierRepository, ValidTestService validTestService) {
         this.readerService = readerService;
         this.validDeviceRepository = validDeviceRepository;
         this.invalidDeviceRepository = invalidDeviceRepository;
         this.supplierRepository = supplierRepository;
-        this.supplier = supplier;
         this.validTestService = validTestService;
     }
 
