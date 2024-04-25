@@ -2,39 +2,34 @@ package com.betek.demoday.actionfactory.services.fileService;
 
 import com.betek.demoday.actionfactory.dto.DeviceCsvDto;
 import com.betek.demoday.actionfactory.exceptions.ApiException;
-import com.betek.demoday.actionfactory.models.Supplier;
-import com.betek.demoday.actionfactory.models.responses.ApiError;
 import com.betek.demoday.actionfactory.models.validations.InvalidDevice;
 import com.betek.demoday.actionfactory.models.validations.ValidDevice;
 import com.betek.demoday.actionfactory.repositories.InvalidDeviceRepository;
-import com.betek.demoday.actionfactory.repositories.SupplierRepository;
 import com.betek.demoday.actionfactory.repositories.ValidDeviceRepository;
-import com.google.protobuf.Api;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 @Service
 public class ValidationService {
 
     private ReaderService readerService;
     private ValidTestService validTestService;
-    private SupplierRepository supplierRepository;
     private ValidDeviceRepository validDeviceRepository;
     private InvalidDeviceRepository invalidDeviceRepository;
 
-    private Supplier supplier;
 
     @Autowired
-    public ValidationService(ReaderService readerService, ValidDeviceRepository validDeviceRepository, InvalidDeviceRepository invalidDeviceRepository, SupplierRepository supplierRepository, Supplier supplier, ValidTestService validTestService) {
+    public ValidationService(ReaderService readerService, ValidDeviceRepository validDeviceRepository, InvalidDeviceRepository invalidDeviceRepository, ValidTestService validTestService) {
         this.readerService = readerService;
         this.validDeviceRepository = validDeviceRepository;
         this.invalidDeviceRepository = invalidDeviceRepository;
-        this.supplierRepository = supplierRepository;
-        this.supplier = supplier;
         this.validTestService = validTestService;
     }
 
@@ -66,17 +61,86 @@ public class ValidationService {
             boolean isValid = validTestService.validations(device);
 
             if (isValid) {
-                ValidDevice validDevice = new ValidDevice();
+                ValidDevice validDevice = mapTovalidDevice(device);
+
                 dispositivosValidos.add(validDevice);
             } else {
-                InvalidDevice invalidDevice = new InvalidDevice();
+                InvalidDevice invalidDevice = mapToInvalidDevice(device);
+
                 dispositivosInvalidos.add(invalidDevice);
             }
 
             System.out.println("Validando dispositivo: " + device.getImei() + ", con puntaje: " + device.getPuntaje() + " - " + device.getState());
         }
+        validDeviceRepository.saveAll(dispositivosValidos);
+        invalidDeviceRepository.saveAll(dispositivosInvalidos);
+
         System.out.println("pausita pa");
+
     }
+
+    private InvalidDevice mapToInvalidDevice(DeviceCsvDto device) {
+        InvalidDevice invalidDevice = new InvalidDevice();
+
+        invalidDevice.setImei(device.getImei());
+        invalidDevice.setState(device.getState());
+        invalidDevice.setSupplier(device.getProveedor());
+
+        try {
+            int score = Integer.parseInt(device.getPuntaje());
+            invalidDevice.setScore(score);
+        } catch (NumberFormatException e) {
+            System.err.println("Error al convertir el puntaje a int: " + device.getPuntaje());
+            invalidDevice.setScore(0);
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date validationDate = dateFormat.parse(device.getDate());
+            invalidDevice.setLoadingDate(validationDate);
+        } catch (ParseException e) {
+            System.err.println("Error al convertir la fecha: " + device.getDate());
+            invalidDevice.setLoadingDate(new Date());
+        }
+
+        //invalidDevice.setEmployee(mapEmployee(device.getProveedor()));
+
+       // invalidDevice.setValidatorID(String.valueOf(Long.parseLong(device.getProveedor())));
+
+        return invalidDevice;
+    }
+
+    private ValidDevice mapTovalidDevice(DeviceCsvDto device) {
+        ValidDevice validDevice = new ValidDevice();
+
+        validDevice.setImei(device.getImei());
+        validDevice.setState(device.getState());
+        validDevice.setSupplier(device.getProveedor());
+
+        try {
+            int score = Integer.parseInt(device.getPuntaje());
+            validDevice.setScore(score);
+        } catch (NumberFormatException e) {
+            System.err.println("Error al convertir el puntaje a int: " + device.getPuntaje());
+            validDevice.setScore(0);
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date validationDate = dateFormat.parse(device.getDate());
+            validDevice.setLoadingDate(validationDate);
+        } catch (ParseException e) {
+            System.err.println("Error al convertir la fecha: " + device.getDate());
+            validDevice.setLoadingDate(new Date());
+        }
+
+        //invalidDevice.setEmployee(mapEmployee(device.getProveedor()));
+
+        // invalidDevice.setValidatorID(String.valueOf(Long.parseLong(device.getProveedor())));
+
+        return validDevice;
+    }
+
 }
 
 

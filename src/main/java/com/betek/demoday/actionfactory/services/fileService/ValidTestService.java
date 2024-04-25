@@ -10,27 +10,21 @@ import org.springframework.stereotype.Service;
 public class ValidTestService {
 
     private SupplierRepository supplierRepository;
-    private Supplier supplier;
 
     @Autowired
-    public ValidTestService(SupplierRepository supplierRepository, Supplier supplier){
+    public ValidTestService(SupplierRepository supplierRepository){
         this.supplierRepository = supplierRepository;
-        this.supplier = supplier;
     }
 
     public boolean validations(DeviceCsvDto device){
-        boolean isValid = true;
-
-        isValid &= existSupplier(device);
-        isValid &= stateIsValid(device);
-        isValid &= imeiIsPalindromo(device);
-        isValid &= validScore(device);
-
-        return isValid;
+        if (imeiIsPalindromo(device)){
+            return false;
+        }
+        return existSupplier(device) && stateIsValid(device) && validScore(device);
     }
 
     public boolean existSupplier(DeviceCsvDto device){
-        return supplierRepository.existsByEmail(supplier.getName());
+        return supplierRepository.existsByName(device.getProveedor());
     }
 
     public boolean stateIsValid(DeviceCsvDto device){
