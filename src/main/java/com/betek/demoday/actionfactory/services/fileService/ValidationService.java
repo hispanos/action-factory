@@ -6,6 +6,7 @@ import com.betek.demoday.actionfactory.models.validations.InvalidDevice;
 import com.betek.demoday.actionfactory.models.validations.ValidDevice;
 import com.betek.demoday.actionfactory.repositories.InvalidDeviceRepository;
 import com.betek.demoday.actionfactory.repositories.ValidDeviceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 @Service
 public class ValidationService {
 
@@ -55,14 +57,13 @@ public class ValidationService {
         List<ValidDevice> dispositivosValidos = new ArrayList<>();
         List<InvalidDevice> dispositivosInvalidos = new ArrayList<>();
 
-
         for (DeviceCsvDto device : sortedList) {
             boolean isValid = validTestService.validations(device);
 
             if (isValid) {
-               // ValidDeviceDto validDevice = mapToInvalidDevice(device);
+                ValidDevice validDevice = mapTovalidDevice(device);
 
-                //dispositivosValidos.add(validDevice);
+                dispositivosValidos.add(validDevice);
             } else {
                 InvalidDevice invalidDevice = mapToInvalidDevice(device);
 
@@ -75,6 +76,7 @@ public class ValidationService {
         invalidDeviceRepository.saveAll(dispositivosInvalidos);
 
         System.out.println("pausita pa");
+
     }
 
     private InvalidDevice mapToInvalidDevice(DeviceCsvDto device) {
@@ -106,6 +108,37 @@ public class ValidationService {
        // invalidDevice.setValidatorID(String.valueOf(Long.parseLong(device.getProveedor())));
 
         return invalidDevice;
+    }
+
+    private ValidDevice mapTovalidDevice(DeviceCsvDto device) {
+        ValidDevice validDevice = new ValidDevice();
+
+        validDevice.setImei(device.getImei());
+        validDevice.setState(device.getState());
+        validDevice.setSupplier(device.getProveedor());
+
+        try {
+            int score = Integer.parseInt(device.getPuntaje());
+            validDevice.setScore(score);
+        } catch (NumberFormatException e) {
+            System.err.println("Error al convertir el puntaje a int: " + device.getPuntaje());
+            validDevice.setScore(0);
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date validationDate = dateFormat.parse(device.getDate());
+            validDevice.setLoadingDate(validationDate);
+        } catch (ParseException e) {
+            System.err.println("Error al convertir la fecha: " + device.getDate());
+            validDevice.setLoadingDate(new Date());
+        }
+
+        //invalidDevice.setEmployee(mapEmployee(device.getProveedor()));
+
+        // invalidDevice.setValidatorID(String.valueOf(Long.parseLong(device.getProveedor())));
+
+        return validDevice;
     }
 
 }

@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InvalidDeviceRepository extends JpaRepository<InvalidDevice, Long> {
 
+    //boolean deleteByDate(String date);
+
 }

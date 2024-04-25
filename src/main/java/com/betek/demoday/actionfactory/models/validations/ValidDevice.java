@@ -10,88 +10,81 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 @Entity
 public class ValidDevice {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int validationID;
+    private String imei;
+    private String state;
 
-    private Long imei;
-    private String estado;
-
-    @OneToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
-
-    private int puntaje;
-    private Date fechaValidacion;
-
+    private String supplier;
+    private int score;
+    private Date loadingDate;
     @OneToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
+    private long validatorID;
 
-    private Long cedula;
+    public ValidDevice(int validationID, String imei, String state, String supplier, int score, Date loadingDate, Employee employee, long validatorID) {
+        this.validationID = validationID;
+        this.imei = imei;
+        this.state = state;
+        this.supplier = supplier;
+        this.score = score;
+        this.loadingDate = loadingDate;
+        this.employee = employee;
+        this.validatorID = validatorID;
+    }
 
-    // Constructor por defecto
     public ValidDevice() {
     }
 
-    // Constructor con todos los campos
-    public ValidDevice(Long imei, String estado, Supplier supplier, int puntaje, Date fechaValidacion, Employee employee, Long cedula) {
-        this.imei = imei;
-        this.estado = estado;
-        this.supplier = supplier;
-        this.puntaje = puntaje;
-        this.fechaValidacion = fechaValidacion;
-        this.employee = employee;
-        this.cedula = cedula;
+    public int getValidationID() {
+        return validationID;
     }
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
+    public void setValidationID(int validationID) {
+        this.validationID = validationID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getImei() {
+    public String getImei() {
         return imei;
     }
 
-    public void setImei(Long imei) {
+    public void setImei(String imei) {
         this.imei = imei;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getState() {
+        return state;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public Supplier getSupplier() {
+    public String getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(Supplier supplier) {
+    public void setSupplier(String supplier) {
         this.supplier = supplier;
     }
 
-    public int getPuntaje() {
-        return puntaje;
+    public int getScore() {
+        return score;
     }
 
-    public void setPuntaje(int puntaje) {
-        this.puntaje = puntaje;
+    public void setScore(int score) {
+        this.score = score;
     }
 
-    public Date getFechaValidacion() {
-        return fechaValidacion;
+    public Date getLoadingDate() {
+        return loadingDate;
     }
 
-    public void setFechaValidacion(Date fechaValidacion) {
-        this.fechaValidacion = fechaValidacion;
+    public void setLoadingDate(Date loadingDate) {
+        this.loadingDate = loadingDate;
     }
 
     public Employee getEmployee() {
@@ -102,11 +95,11 @@ public class ValidDevice {
         this.employee = employee;
     }
 
-    public Long getCedula() {
-        return cedula;
+    public long getValidatorID() {
+        return validatorID;
     }
 
-    public void setCedula(Long cedula) {
-        this.cedula = cedula;
+    public void setValidatorID(long validatorID) {
+        this.validatorID = validatorID;
     }
 }
