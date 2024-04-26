@@ -43,8 +43,8 @@ public class SupplierController {
 
     @GetMapping
     @Operation(summary = "Mostrar proveedores.")
-    public List<Supplier> getAllSuppliers(){
-            return supplierService.getAllsSuppliers();
+    public CustomResponse<List<Supplier>> getAllSuppliers() {
+        return CustomResponse.success(supplierService.getAllsSuppliers());
     }
 
     @GetMapping("/{id}")
