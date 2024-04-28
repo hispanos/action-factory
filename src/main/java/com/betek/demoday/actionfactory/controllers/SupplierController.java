@@ -28,7 +28,7 @@ public class SupplierController {
     }
 
     @PostMapping
-    @Operation(summary = "Crear un empleado.")
+    @Operation(summary = "Crear un Proveedor.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Proveedor creado."),
             @ApiResponse(responseCode = "400", description = "El email ya está registrado.", content = @Content),

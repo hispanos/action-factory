@@ -1,31 +1,27 @@
-package com.betek.demoday.actionfactory.models.validations;
+package com.betek.demoday.actionfactory.dto;
 
 import com.betek.demoday.actionfactory.models.Employee;
-import com.betek.demoday.actionfactory.models.Supplier;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 import java.util.Date;
-@Entity
-public class ValidDevice {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DeviceResponseDto {
     private int validationID;
     private Long imei;
+    private Boolean isValid;
     private String state;
 
     private String supplier;
     private int score;
     private Date loadingDate;
-    @OneToOne
-    @JoinColumn(name = "employee_id")
     private Employee employee;
     private long validatorID;
 
-    public ValidDevice(int validationID, Long imei, String state, String supplier, int score, Date loadingDate, Employee employee, long validatorID) {
+    public DeviceResponseDto() {
+    }
+
+    public DeviceResponseDto(int validationID, Boolean isValid, Long imei, String state, String supplier, int score, Date loadingDate, Employee employee, long validatorID) {
         this.validationID = validationID;
         this.imei = imei;
         this.state = state;
@@ -34,9 +30,15 @@ public class ValidDevice {
         this.loadingDate = loadingDate;
         this.employee = employee;
         this.validatorID = validatorID;
+        this.isValid = isValid;
     }
 
-    public ValidDevice() {
+    public Boolean getValid() {
+        return isValid;
+    }
+
+    public void setValid(Boolean valid) {
+        isValid = valid;
     }
 
     public int getValidationID() {

@@ -2,6 +2,10 @@ package com.betek.demoday.actionfactory.controllers;
 
 import com.betek.demoday.actionfactory.services.fileService.ReaderService;
 import com.betek.demoday.actionfactory.services.fileService.ValidationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Tag(name = "Controlador de archivos", description = "Controlador para gestionar las operaciones de los archivos.")
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/api/file")
 public class ReaderController {
     private ReaderService readerService;
     private ValidationService validationService;
@@ -21,7 +25,11 @@ public class ReaderController {
         this.validationService = validationService;
     }
 
-
+    @Operation(summary = "Procesar archivo CSV.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Archivo procesado."),
+            @ApiResponse(responseCode = "400", description = "Error en tu archivo.", content = @Content)
+    })
     @PostMapping("/upload-csv")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {

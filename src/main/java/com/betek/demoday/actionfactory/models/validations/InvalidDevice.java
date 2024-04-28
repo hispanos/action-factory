@@ -14,7 +14,7 @@ public class InvalidDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int validationID;
-    private String imei;
+    private Long imei;
     private String state;
 
     private String supplier;
@@ -25,7 +25,7 @@ public class InvalidDevice {
     private Employee employee;
     private long validatorID;
 
-    public InvalidDevice(String imei, String state, String supplier, int score, Date loadingDate, Employee employee, long validatorID) {
+    public InvalidDevice(Long imei, String state, String supplier, int score, Date loadingDate, Employee employee, long validatorID) {
         this.imei = imei;
         this.state = state;
         this.supplier = supplier;
@@ -42,7 +42,7 @@ public class InvalidDevice {
         return validationID;
     }
 
-    public String getImei() {
+    public Long getImei() {
         return imei;
     }
 
@@ -74,7 +74,7 @@ public class InvalidDevice {
         this.validationID = validationID;
     }
 
-    public void setImei(String imei) {
+    public void setImei(Long imei) {
         this.imei = imei;
     }
 
