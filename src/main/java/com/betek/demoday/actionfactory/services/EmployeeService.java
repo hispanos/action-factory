@@ -95,7 +95,4 @@ public class EmployeeService {
         return employee;
     }
 
-    public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Employee with this id does not exist"));
-    }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Tag(name = "Controlador de archivos", description = "Controlador para gestionar las operaciones de los archivos.")
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/api/file")
 public class ReaderController {
     private ReaderService readerService;
     private ValidationService validationService;
