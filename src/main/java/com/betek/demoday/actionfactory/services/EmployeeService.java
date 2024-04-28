@@ -6,6 +6,7 @@ import com.betek.demoday.actionfactory.models.Employee;
 import com.betek.demoday.actionfactory.models.Role;
 import com.betek.demoday.actionfactory.models.Supplier;
 import com.betek.demoday.actionfactory.repositories.EmployeeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,10 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class EmployeeService {
-    EmployeeRepository employeeRepository;
-    BCryptPasswordEncoder passwordEncoder;
-    RoleService roleService;
+    private EmployeeRepository employeeRepository;
+    private BCryptPasswordEncoder passwordEncoder;
+    private RoleService roleService;
 
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository, BCryptPasswordEncoder passwordEncoder, RoleService roleService) {
@@ -38,6 +40,7 @@ public class EmployeeService {
             throw new ApiException(HttpStatus.BAD_REQUEST, "El email ya está registrado");
         }
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        log.info("Empleado guardado: " + employee);
         return employeeRepository.save(employee);
     }
 
@@ -53,6 +56,8 @@ public class EmployeeService {
         if (!employeeRepository.existsById(employee.getId())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Employee with this id does not exist");
         }
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        log.info("Employee updated: " + employee);
         return employeeRepository.save(employee);
     }
 
@@ -88,5 +93,9 @@ public class EmployeeService {
         employee.setHiringDate(employeeDTO.getHiringDate());
         employee.setState(employeeDTO.getState());
         return employee;
+    }
+
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Employee with this id does not exist"));
     }
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Employee Controller", description = "Controlador para gestionar las operaciones de los empleados")
+@Tag(name = "Controlador de Empleados", description = "Controlador para gestionar las operaciones de los empleados")
 @RestController
 @RequestMapping("api/employee")
 public class EmployeeController {

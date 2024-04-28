@@ -2,13 +2,11 @@ package com.betek.demoday.actionfactory.controllers;
 
 import com.betek.demoday.actionfactory.dto.DeviceResponseDto;
 import com.betek.demoday.actionfactory.exceptions.ApiException;
-import com.betek.demoday.actionfactory.models.Supplier;
 import com.betek.demoday.actionfactory.models.responses.CustomResponse;
 import com.betek.demoday.actionfactory.models.validations.InvalidDevice;
 import com.betek.demoday.actionfactory.models.validations.ValidDevice;
 import com.betek.demoday.actionfactory.services.devicesServices.InvalidDeviceService;
 import com.betek.demoday.actionfactory.services.devicesServices.ValidDeviceService;
-import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -34,7 +34,7 @@ public class Supplier {
     public Supplier() {
     }
 
-    public Long getIdSupplier() {
+    public Long getId() {
         return id;
     }
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Supplier Controller", description = "Controlador para gestionar las operaciones de los proveedores")
+@Tag(name = "Controlador de Proveedores", description = "Controlador para gestionar las operaciones de los proveedores")
 @RestController
 @RequestMapping("api/supplier")
 public class SupplierController {
@@ -43,8 +43,8 @@ public class SupplierController {
 
     @GetMapping
     @Operation(summary = "Mostrar proveedores.")
-    public List<Supplier> getAllSuppliers(){
-            return supplierService.getAllsSuppliers();
+    public CustomResponse<List<Supplier>> getAllSuppliers() {
+        return CustomResponse.success(supplierService.getAllsSuppliers());
     }
 
     @GetMapping("/{id}")
