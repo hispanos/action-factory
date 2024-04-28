@@ -4,12 +4,15 @@ import com.betek.demoday.actionfactory.dto.EmployeeDTO;
 import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.Employee;
 import com.betek.demoday.actionfactory.models.Role;
+import com.betek.demoday.actionfactory.models.Supplier;
 import com.betek.demoday.actionfactory.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmployeeService {
     EmployeeRepository employeeRepository;
@@ -55,6 +58,23 @@ public class EmployeeService {
 
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
+    }
+
+    public Employee getEmployeeById(Long id) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+
+        if (optionalEmployee.isPresent()) {
+            return optionalEmployee.get();
+        } else {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Empleado no encontrado.");
+        }
+    }
+
+    public void deleteEmployeeById(Long id) {
+        if (!employeeRepository.existsById(id)) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Empleado no encontrado.");
+        }
+        employeeRepository.deleteById(id);
     }
 
     //Get Employee from EmployeeDTO

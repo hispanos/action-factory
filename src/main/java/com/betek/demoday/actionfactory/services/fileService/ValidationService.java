@@ -82,7 +82,12 @@ public class ValidationService {
     private InvalidDevice mapToInvalidDevice(DeviceCsvDto device) {
         InvalidDevice invalidDevice = new InvalidDevice();
 
-        invalidDevice.setImei(device.getImei());
+        try {
+            invalidDevice.setImei(Long.parseLong(device.getImei()));
+        } catch (NumberFormatException e) {
+            System.err.println("Error al convertir el IMEI a Long: " + device.getImei());
+        }
+
         invalidDevice.setState(device.getState());
         invalidDevice.setSupplier(device.getProveedor());
 
@@ -113,7 +118,12 @@ public class ValidationService {
     private ValidDevice mapTovalidDevice(DeviceCsvDto device) {
         ValidDevice validDevice = new ValidDevice();
 
-        validDevice.setImei(device.getImei());
+        try {
+            validDevice.setImei(Long.parseLong(device.getImei()));
+        } catch (NumberFormatException e) {
+            System.err.println("Error al convertir el IMEI a Long: " + device.getImei());
+        }
+
         validDevice.setState(device.getState());
         validDevice.setSupplier(device.getProveedor());
 

@@ -20,9 +20,6 @@ public class Supplier {
     private String sectorIndustry;
     private LocalDate registrationDate;
 
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
-    private List<Device> devices;
-
     public Supplier(Long id, String name, String address, String telephoneNumber, String email, String webSite, String sectorIndustry, LocalDate registrationDate) {
         this.id = id;
         this.name = name;
