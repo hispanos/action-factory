@@ -4,6 +4,7 @@ import com.betek.demoday.actionfactory.dto.EmployeeDTO;
 import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.Employee;
 import com.betek.demoday.actionfactory.models.Role;
+import com.betek.demoday.actionfactory.models.Supplier;
 import com.betek.demoday.actionfactory.repositories.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @Slf4j
 public class EmployeeService {
@@ -62,6 +65,23 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    public Employee getEmployeeById(Long id) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+
+        if (optionalEmployee.isPresent()) {
+            return optionalEmployee.get();
+        } else {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Empleado no encontrado.");
+        }
+    }
+
+    public void deleteEmployeeById(Long id) {
+        if (!employeeRepository.existsById(id)) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Empleado no encontrado.");
+        }
+        employeeRepository.deleteById(id);
+    }
+
     //Get Employee from EmployeeDTO
     public Employee getEmployeeFromDTO(EmployeeDTO employeeDTO) {
         Role role = roleService.getRoleById(employeeDTO.getRoleId());
@@ -75,7 +95,4 @@ public class EmployeeService {
         return employee;
     }
 
-    public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Employee with this id does not exist"));
-    }
 }
