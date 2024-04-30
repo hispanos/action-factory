@@ -1,5 +1,6 @@
 package com.betek.demoday.actionfactory.services.devicesServices;
 
+import com.betek.demoday.actionfactory.dto.DeviceResponseDto;
 import com.betek.demoday.actionfactory.exceptions.ApiException;
 import com.betek.demoday.actionfactory.models.validations.InvalidDevice;
 import com.betek.demoday.actionfactory.models.validations.ValidDevice;
@@ -64,5 +65,29 @@ public class ValidDeviceService {
         } else {
             throw new ApiException(HttpStatus.NOT_FOUND, "Dispositivo no encontrado.");
         }
+    }
+
+    public DeviceResponseDto updateDeviceState(Long imei, String state) {
+
+        ValidDevice device = validDeviceRepository.findByImei(imei)
+                .orElseThrow(() -> new ApiException("Dispositivo no encontrado con imei: " + imei));
+
+        device.setState(state);
+        ValidDevice updatedDevice = validDeviceRepository.save(device);
+        return mapToDeviceResponseDto(updatedDevice);
+    }
+
+    private DeviceResponseDto mapToDeviceResponseDto(ValidDevice device) {
+        DeviceResponseDto deviceResponseDto = new DeviceResponseDto();
+
+        deviceResponseDto.setValidationID(device.getValidationID());
+        deviceResponseDto.setImei(device.getImei());
+        deviceResponseDto.setState(device.getState());
+        deviceResponseDto.setSupplier(device.getSupplier());
+        deviceResponseDto.setScore(device.getScore());
+        deviceResponseDto.setLoadingDate(device.getLoadingDate());
+        deviceResponseDto.setEmployee(device.getEmployee());
+        deviceResponseDto.setValidatorID(device.getValidatorID());
+        return deviceResponseDto;
     }
 }
