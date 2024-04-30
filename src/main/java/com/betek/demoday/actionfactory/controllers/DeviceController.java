@@ -124,7 +124,6 @@ public class DeviceController {
         }
     }
 
-
     public DeviceResponseDto setDeviceResponseDtoValid(ValidDevice validDevice){
         DeviceResponseDto deviceResponseDto = new DeviceResponseDto();
 
