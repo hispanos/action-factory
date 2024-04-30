@@ -13,10 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,7 @@ public class DeviceController {
     }
 
     @GetMapping
-    @Operation(summary = "Obtener un dispositivos.")
+    @Operation(summary = "Obtener todos dispositivos.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Dispositivos encontrados."),
             @ApiResponse(responseCode = "404", description = "Dispositivos no encontrados.", content = @Content),
@@ -106,6 +104,26 @@ public class DeviceController {
         return CustomResponse.success(deviceResponseDto);
     }
 
+    @PatchMapping("imei/{imei}/state/{state}")
+    @Operation(summary = "Actualizar el estado de un dispositivo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estado actualizado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Dispositivo no encontrado", content = @Content)
+    })
+    public CustomResponse<DeviceResponseDto> updateDeviceState(@PathVariable Long imei, @PathVariable String state) {
+        try{
+            try{
+                DeviceResponseDto updatedDevice = invalidDeviceService.updateDeviceState(imei, state);
+                return CustomResponse.success(updatedDevice);
+            }catch (ApiException a){
+                DeviceResponseDto updatedDevice = validDeviceService.updateDeviceState(imei, state);
+                return CustomResponse.success(updatedDevice);
+            }
+        }catch(ApiException e){
+            return CustomResponse.error(e.getStatusCode(), e.getMessage());
+        }
+    }
+
     public DeviceResponseDto setDeviceResponseDtoValid(ValidDevice validDevice){
         DeviceResponseDto deviceResponseDto = new DeviceResponseDto();
 
@@ -158,4 +176,5 @@ public class DeviceController {
         });
         return listResponses;
     }
+
 }
